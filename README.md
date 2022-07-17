@@ -1,4 +1,4 @@
-# PenguinSurvival
+# Penguin Survival
 
 게임 개요
 뱀파이버 서바이벌을 모작했습니다.
