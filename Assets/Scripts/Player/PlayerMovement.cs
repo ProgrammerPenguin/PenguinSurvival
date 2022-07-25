@@ -39,28 +39,12 @@ public class PlayerMovement : MonoBehaviour
     // 입력값에 따라 캐릭터를 앞뒤로 움직임
     private void move()
     {
-        //// 거리 = 속력 * 시간
-        //float movementAmount = MoveSpeed * Time.fixedDeltaTime;
-        //// 방향은 캐릭터 기준이다
-        //Vector3 directoin = _input.MoveDirection * transform.forward;
-        //Vector3 offset = movementAmount * directoin;
+        
         float accelerationX = MoveSpeed * _input.RotateDirection;
         float accelerationZ = MoveSpeed * _input.MoveDirection;
-        // 유니티의 최적화 중 연산순서가 중요하다. 왼쪽부터 오른쪽으로 되는데
-        // 아래 식에서는 float 와 Vector3 의 연산때문에 그렇다. 백터연산의 횟수 때문이다.
-        //Vector3 deltaPosition = transform.forward * MoveSpeed * _input.MoveDirection * Time.fixedDeltaTime;
-        //Vector3 deltaPosition2 = transform.forward * MoveSpeed * _input.RotateDirection * Time.fixedDeltaTime;
-
-        //_rigidbody.MovePosition(_rigidbody.position + deltaPosition + deltaPosition2);
+     
         _rigidbody.velocity = new Vector3(accelerationX, _rigidbody.velocity.y , accelerationZ);
     }
 
-    // 입력값에 따라 캐릭터를 좌우로 회전
-    //private void rotate()
-    //{
-    //    float rotationAmount = _input.RotateDirection * RotateSpeed * Time.fixedDeltaTime;
 
-    //    Quaternion deltaRotation = Quaternion.Euler(0f, rotationAmount, 0f);
-    //    _rigidbody.MoveRotation(_rigidbody.rotation * deltaRotation);
-    //}
 }

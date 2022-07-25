@@ -15,8 +15,7 @@ public class Weapon : MonoBehaviour
     {
         if (type == Type.Melee)
         {
-            StopCoroutine("Swing");
-            StartCoroutine("Swing");
+            StartCoroutine(Swing());
         }
 
     }
@@ -25,12 +24,10 @@ public class Weapon : MonoBehaviour
 
         yield return new WaitForSeconds(0.1f);
         meleeArea.enabled = true;
-        trailEffect.enabled = true;
+        trailEffect.startColor = Color.red;
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.5f);
         meleeArea.enabled = false;
-
-        yield return new WaitForSeconds(0.3f);
-        trailEffect.enabled = false;
+        trailEffect.startColor = trailEffect.startColor = Color.yellow;
     }
 }

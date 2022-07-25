@@ -7,15 +7,10 @@ public class PlayerInput : MonoBehaviour
     public string MoveAxisName = "Vertical"; // 앞뒤 움직임을 위한 입력축 이름
     public string RotateAxisName = "Horizontal"; // 좌우 회전을 위한 입력축 이름
 
-    public bool fDown;
-    bool isFireReady;
-    float FireDelay;
-    Weapon _weapon;
-    Animator _anim;
+    
     // 값 할당은 내부에서만 가능
     public float MoveDirection { get; private set; } // 감지된 움직임 입력값
     public float RotateDirection { get; private set; } // 감지된 회전 입력값
-
 
     // 매프레임 사용자 입력을 감지
     private void Update()
@@ -34,9 +29,8 @@ public class PlayerInput : MonoBehaviour
         // rotate에 관한 입력 감지
         RotateDirection = Input.GetAxis(RotateAxisName);
 
-        Attack();
+        
 
-        //fDown = Input.GetButton("Fire1");
         //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         //Attack();
         //Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red);
@@ -61,20 +55,20 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-    public void Attack()
-    {
-        if (_weapon == null)
-        {
-            return;
-        }
-        FireDelay += Time.deltaTime;
-        isFireReady = _weapon.rate < FireDelay;
+    //public void Attack()
+    //{
+    //    if (_weapon == null)
+    //    {
+    //        return;
+    //    }
+    //    FireDelay += Time.deltaTime;
+    //    isFireReady = _weapon.rate < FireDelay;
 
-        if (isFireReady)
-        {
-            _weapon.Use();
-            _anim.SetBool(PlayerAnimID.AllAttack, true);
-            FireDelay = 0;
-        }
-    }
+    //    if (isFireReady && fDown)
+    //    {
+    //        _weapon.Use();
+    //        _anim.SetTrigger(PlayerAnimID.Attack);
+    //        FireDelay = 0;
+    //    }
+    //}
 }
