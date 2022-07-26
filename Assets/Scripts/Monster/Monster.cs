@@ -5,24 +5,28 @@ using UnityEngine.AI; // AI, 내비게이션 시스템 관련 코드를 가져오기
 // 적 AI를 구현한다
 public class Monster : LivingEntity
 {
-    public Transform Target;
+    private Transform Target;
     public bool IsChase;
-
+    
     private Rigidbody _rigidbody;
     private BoxCollider _boxCollider;
     private Material _material;
     private NavMeshAgent _navMeshAgent;
     private Animator _animator;
-   
+    private GameManager _gameManager;
 
 
-    private void Awake()
+
+    private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _boxCollider = GetComponent<BoxCollider>();
         _material = GetComponentInChildren<SkinnedMeshRenderer>().material;
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _animator = GetComponent<Animator>();
+        _gameManager = GameManager.Instance;
+
+
         ChaseStart();
     }
     void ChaseStart()
@@ -34,7 +38,7 @@ public class Monster : LivingEntity
     {
         if (IsChase)
         {
-            _navMeshAgent.SetDestination(Target.position);
+            _navMeshAgent.SetDestination(_gameManager.PlayerTransform.position);
         }
     }
 
@@ -58,7 +62,7 @@ public class Monster : LivingEntity
         {
             Weapon weapon = other.GetComponent<Weapon>();
             OnDamage(weapon.damage, transform.position);
-            Vector3 KnockBack = transform.position - other.transform.position; 
+            Vector3 KnockBack = transform.position - other.transform.position;
             StartCoroutine(HitEffect(KnockBack));
             Debug.Log($"{CurrentHealth}"); // 지워야함
         }
@@ -74,12 +78,12 @@ public class Monster : LivingEntity
         _material.color = Color.red;
         yield return new WaitForSeconds(0.1f);
 
-        if(CurrentHealth > 0)
+        if (CurrentHealth > 0)
         {
             _material.color = Color.white;
             KnockBack = KnockBack.normalized;
-            KnockBack += Vector3.up;
-            _rigidbody.AddForce(KnockBack * 5, ForceMode.Impulse);
+            KnockBack += Vector3.back;
+            _rigidbody.AddForce(KnockBack * 200, ForceMode.Impulse);
         }
         else
         {
@@ -87,8 +91,17 @@ public class Monster : LivingEntity
             _animator.SetTrigger(SlimeAnimID.DoDie);
             _material.color = Color.gray;
             gameObject.layer = 12;
-            Destroy(gameObject, 4);
+            Invoke("DestroyMonster", 4f);
         }
+    }
+
+    private void DestroyMonster()
+    {
+        _animator.SetTrigger(SlimeAnimID.DoDie);
+        _material.color = Color.white;
+        gameObject.layer = 11;
+        CurrentHealth = InitialHealth;
+        ObjectPool.ReturnObject(this);
     }
 
 }

@@ -7,6 +7,15 @@ public class GameManager : Singleton<GameManager>
     private int _score = 0; // 현재 게임 점수
     public bool IsGameover { get; private set; } // 게임 오버 상태
 
+    public Transform PlayerTransform;
+
+    private void Start()
+    {
+        //PlayerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+    }
+    // public GameObject Player;
+
+
     // 점수를 추가하고 UI 갱신
     public void AddScore(int newScore)
     {
