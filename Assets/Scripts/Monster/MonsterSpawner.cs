@@ -11,7 +11,14 @@ public class MonsterSpawner : MonoBehaviour
     public float MinDistance = 1f;
     public float SpawnCooltime = 1.5f;
 
+    private NavMeshAgent _navMeshAgent;
     private float _lastSpawnTime = 0f;
+
+    private void Start()
+    {
+        Debug.Log($"debug : {Vector3.Distance(new Vector3(0f, 0f, 0f), new Vector3(-24.54f, -0.774f, -80.4091f))}");
+        _navMeshAgent = GetComponentInChildren<NavMeshAgent>();
+    }
 
     private void Update()
     {
@@ -28,7 +35,16 @@ public class MonsterSpawner : MonoBehaviour
         
         spawnPosition += Vector3.up * 0.5f;
         transform.position = spawnPosition;
-        var monster = ObjectPool.GetObject(transform);
+        //Debug.Log($"distance : {Vector3.Distance(PlayerTransform.position, transform.position)}");
+        
+        if (Vector3.Distance(PlayerTransform.position, transform.position) > MaxDistance)
+        {
+            return;
+        }
+        else
+        {
+            var monster = ObjectPool.GetObject(transform);
+        }
             //Instantiate(Monster, spawnPosition, Quaternion.identity);
 
     }

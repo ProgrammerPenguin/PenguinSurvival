@@ -9,6 +9,9 @@ public class GameManager : Singleton<GameManager>
 
     public Transform PlayerTransform;
 
+    public float MinDistance;
+    public float MaxDistance;
+
     private void Start()
     {
         //PlayerTransform = GameObject.FindGameObjectWithTag("Player").transform;

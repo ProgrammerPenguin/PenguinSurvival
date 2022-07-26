@@ -153,6 +153,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerTransform: {fileID: 507689219}
+  MinDistance: 0
+  MaxDistance: 0
 --- !u!4 &116263634
 Transform:
   m_ObjectHideFlags: 0
@@ -2202,6 +2204,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InitialHealth: 500
   IsChase: 0
+  Isdie: 0
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0

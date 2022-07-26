@@ -14,6 +14,7 @@ public class Monster : LivingEntity
     private NavMeshAgent _navMeshAgent;
     private Animator _animator;
     private GameManager _gameManager;
+    public bool Isdie;
 
 
 
@@ -25,7 +26,7 @@ public class Monster : LivingEntity
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _animator = GetComponent<Animator>();
         _gameManager = GameManager.Instance;
-
+        Isdie = false;
 
         ChaseStart();
     }
@@ -36,6 +37,15 @@ public class Monster : LivingEntity
     }
     private void Update()
     {
+        if (Isdie == true)
+        {
+            Isdie = false;
+            //_navMeshAgent.enabled = false;
+            //transform.position = Random.onUnitSphere;
+            //_navMeshAgent.enabled = true;
+
+            ChaseStart();
+        }
         if (IsChase)
         {
             _navMeshAgent.SetDestination(_gameManager.PlayerTransform.position);
@@ -64,7 +74,7 @@ public class Monster : LivingEntity
             OnDamage(weapon.damage, transform.position);
             Vector3 KnockBack = transform.position - other.transform.position;
             StartCoroutine(HitEffect(KnockBack));
-            Debug.Log($"{CurrentHealth}"); // 지워야함
+            //Debug.Log($"{CurrentHealth}"); // 지워야함
         }
     }
 
@@ -101,7 +111,14 @@ public class Monster : LivingEntity
         _material.color = Color.white;
         gameObject.layer = 11;
         CurrentHealth = InitialHealth;
+        Isdie = true;
+        Debug.Log($"전 위치 {transform.position}");
+        _navMeshAgent.enabled = false;
+        transform.position = new Vector3(0f, 0f, 0f);
+        _navMeshAgent.enabled = true;
+        Debug.Log($"후 위치 {transform.position}");
         ObjectPool.ReturnObject(this);
+        
     }
 
 }
