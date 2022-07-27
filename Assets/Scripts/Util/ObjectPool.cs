@@ -1,10 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+public enum PoolName
+{
+    Monster,
+    Bullet,
+    Magic
+}
 
 public class ObjectPool : MonoBehaviour
 {
     public static ObjectPool Instance;
+    public GameObject PoolgameObject;
 
     [SerializeField]
     private GameObject poolingObjectPrefab;
@@ -14,7 +21,7 @@ public class ObjectPool : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        
+
     }
 
     private Monster CreateNewObject(Transform transform)
@@ -24,9 +31,9 @@ public class ObjectPool : MonoBehaviour
         return newobj;
     }
 
-    private void Initalize(int count , Transform transform)
+    private void Initalize(int count, Transform transform)
     {
-        for(int i = 0; i < count; ++i)
+        for (int i = 0; i < count; ++i)
         {
             poolingObjectQueue.Enqueue(CreateNewObject(transform));
         }
@@ -34,7 +41,7 @@ public class ObjectPool : MonoBehaviour
 
     public static Monster GetObject(Transform transform)
     {
-        if(Instance.poolingObjectQueue.Count > 0)
+        if (Instance.poolingObjectQueue.Count > 0)
         {
             var obj = Instance.poolingObjectQueue.Dequeue();
             obj.transform.SetParent(null);

@@ -29,29 +29,35 @@ public class Monster : LivingEntity
         Isdie = false;
 
         ChaseStart();
+        StartCoroutine(UpdatePath());
     }
     void ChaseStart()
     {
         IsChase = true;
         _animator.SetBool(SlimeAnimID.HasTarget, true);
     }
-    private void Update()
+
+    new public void OnEnable()
     {
         if (Isdie == true)
         {
             Isdie = false;
-            //_navMeshAgent.enabled = false;
-            //transform.position = Random.onUnitSphere;
-            //_navMeshAgent.enabled = true;
-
             ChaseStart();
-        }
-        if (IsChase)
-        {
-            _navMeshAgent.SetDestination(_gameManager.PlayerTransform.position);
+            StartCoroutine(UpdatePath());
         }
     }
+    private IEnumerator UpdatePath()
+    {
+        while(true)
+        {
+            if (Isdie == false)
+            {
+                _navMeshAgent.SetDestination(_gameManager.PlayerTransform.position);
+            }
 
+            yield return new WaitForSeconds(0.25f);
+        }    
+    }
     void FreezeVelocity()
     {
         if (IsChase)
@@ -70,11 +76,17 @@ public class Monster : LivingEntity
     {
         if (other.tag == "Melee")
         {
-            Weapon weapon = other.GetComponent<Weapon>();
+            Melee weapon = other.GetComponent<Melee>();
             OnDamage(weapon.damage, transform.position);
             Vector3 KnockBack = transform.position - other.transform.position;
             StartCoroutine(HitEffect(KnockBack));
             //Debug.Log($"{CurrentHealth}"); // 지워야함
+        }
+        if (other.tag == "Bullet")
+        {
+            Bullet bulltet = other.GetComponent<Bullet>();
+            OnDamage(bulltet.damage, transform.position);
+            StartCoroutine(HitEffect(new Vector3(0f,0f,0f)));
         }
     }
 
@@ -98,6 +110,7 @@ public class Monster : LivingEntity
         else
         {
             IsChase = false;
+            Isdie = true;
             _animator.SetTrigger(SlimeAnimID.DoDie);
             _material.color = Color.gray;
             gameObject.layer = 12;
@@ -111,12 +124,8 @@ public class Monster : LivingEntity
         _material.color = Color.white;
         gameObject.layer = 11;
         CurrentHealth = InitialHealth;
-        Isdie = true;
-        Debug.Log($"전 위치 {transform.position}");
-        _navMeshAgent.enabled = false;
-        transform.position = new Vector3(0f, 0f, 0f);
-        _navMeshAgent.enabled = true;
-        Debug.Log($"후 위치 {transform.position}");
+        
+        
         ObjectPool.ReturnObject(this);
         
     }

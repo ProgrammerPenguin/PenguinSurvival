@@ -2,34 +2,61 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    bool isFireReady;
-    float FireDelay;
-    public Weapon _weapon;
+    public GameObject _Meleeweapon;
+    public GameObject _Rangeweapon;
     Animator _anim;
 
+    private float _totalAnimTime;
 
     private void Start()
     {
         _anim = GetComponent<Animator>();
+        _totalAnimTime = _anim.
+       
     }
     private void Update()
     {
-        Attack();
+        if (_Meleeweapon.activeSelf == true)
+        {
+            MeleeAttack(_Meleeweapon);
+        }
+        //if (_Rangeweapon.activeSelf == true)
+        //{
+        //    RangeAttack(_Rangeweapon);
+        //}
     }
-    public void Attack()
+    public void MeleeAttack(GameObject Melee)
     {
-        if (_weapon == null)
+        if (_Meleeweapon == null)
         {
             return;
         }
-        FireDelay += Time.deltaTime;
-        isFireReady = _weapon.rate < FireDelay;
-
-        if (isFireReady)
+        Melee meleeWeapon = Melee.GetComponent<Melee>();
+        meleeWeapon.AttackDelay += Time.deltaTime;
+        meleeWeapon.IsAttackReady = meleeWeapon.rate < meleeWeapon.AttackDelay;
+        if (meleeWeapon.IsAttackReady)
         {
-            _weapon.Use();
-            _anim.SetTrigger(PlayerAnimID.Attack);
-            FireDelay = 0;
+            meleeWeapon.Use();
+            _anim.SetFloat("AttackSpeed", meleeWeapon.WeaponSpeed);
+            _anim.SetTrigger(PlayerAnimID.MeleeAttack);
+            meleeWeapon.AttackDelay = 0;
+        }
+    }
+
+    public void RangeAttack(GameObject Range)
+    {
+        if (Range == null)
+        {
+            return;
+        }
+        Range RangeWeapon = Range.GetComponent<Range>();
+        RangeWeapon.AttackDelay += Time.deltaTime;
+        RangeWeapon.IsAttackReady = RangeWeapon.rate < RangeWeapon.AttackDelay;
+        if (RangeWeapon.IsAttackReady)
+        {
+            RangeWeapon.Use();
+            _anim.SetTrigger(PlayerAnimID.GunAttack);
+            RangeWeapon.AttackDelay = 0;
         }
     }
 }
