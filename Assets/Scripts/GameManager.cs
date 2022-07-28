@@ -5,9 +5,12 @@ public class GameManager : Singleton<GameManager>
 {
 
     private int _score = 0; // 현재 게임 점수
+    public Animator _anim { get; private set; }
+   
     public bool IsGameover { get; private set; } // 게임 오버 상태
 
     public Transform PlayerTransform;
+    public GameObject FireTransform;
 
     public float MinDistance;
     public float MaxDistance;

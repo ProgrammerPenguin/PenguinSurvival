@@ -9,6 +9,7 @@ public class Melee : Weapon
     public float AttackDelay;
     public bool IsAttackReady;
     public float WeaponSpeed;
+
     public void Use()
     {
        StartCoroutine(Swing());
@@ -22,7 +23,8 @@ public class Melee : Weapon
         yield return new WaitForSeconds(7f);
         meleeArea.enabled = false;
         trailEffect.enabled = false;
-        //trailEffect.startColor = trailEffect.startColor = Color.yellow;
     }
+
+    
 
 }

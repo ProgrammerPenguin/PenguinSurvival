@@ -17,6 +17,7 @@ public class LivingEntity : MonoBehaviour, IDamageable
         IsDead = false;
         // 체력을 시작 체력으로 초기화
         CurrentHealth = InitialHealth;
+        
     }
 
     // 데미지를 입는 기능
@@ -26,10 +27,10 @@ public class LivingEntity : MonoBehaviour, IDamageable
         CurrentHealth -= damage;
 
         // 체력이 0 이하 && 아직 죽지 않았다면 사망 처리 실행
-        if (CurrentHealth <= 0 && !IsDead)
-        {
-            Die();
-        }
+        //if (CurrentHealth <= 0 && !IsDead)
+        //{
+        //    Die();
+        //}
     }
 
     // 체력을 회복하는 기능

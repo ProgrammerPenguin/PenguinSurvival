@@ -27,6 +27,7 @@ public class Monster : LivingEntity
         _animator = GetComponent<Animator>();
         _gameManager = GameManager.Instance;
         Isdie = false;
+        CurrentHealth = InitialHealth;
 
         ChaseStart();
         StartCoroutine(UpdatePath());
@@ -42,6 +43,7 @@ public class Monster : LivingEntity
         if (Isdie == true)
         {
             Isdie = false;
+           
             ChaseStart();
             StartCoroutine(UpdatePath());
         }
@@ -79,14 +81,14 @@ public class Monster : LivingEntity
             Melee weapon = other.GetComponent<Melee>();
             OnDamage(weapon.damage, transform.position);
             Vector3 KnockBack = transform.position - other.transform.position;
-            StartCoroutine(HitEffect(KnockBack));
+            StartCoroutine(HitEffect());
             //Debug.Log($"{CurrentHealth}"); // 지워야함
         }
         if (other.tag == "Bullet")
         {
             Bullet bulltet = other.GetComponent<Bullet>();
             OnDamage(bulltet.damage, transform.position);
-            StartCoroutine(HitEffect(new Vector3(0f,0f,0f)));
+            StartCoroutine(HitEffect());
         }
     }
 
@@ -95,17 +97,15 @@ public class Monster : LivingEntity
         base.OnDamage(damage, hitPoint);
     }
 
-    IEnumerator HitEffect(Vector3 KnockBack)
+    IEnumerator HitEffect()
     {
         _material.color = Color.red;
         yield return new WaitForSeconds(0.1f);
+        //Debug.Log($"{CurrentHealth}");
 
         if (CurrentHealth > 0)
         {
             _material.color = Color.white;
-            KnockBack = KnockBack.normalized;
-            KnockBack += Vector3.back;
-            _rigidbody.AddForce(KnockBack * 200, ForceMode.Impulse);
         }
         else
         {
@@ -114,6 +114,7 @@ public class Monster : LivingEntity
             _animator.SetTrigger(SlimeAnimID.DoDie);
             _material.color = Color.gray;
             gameObject.layer = 12;
+            _boxCollider.enabled = false;
             Invoke("DestroyMonster", 4f);
         }
     }
@@ -124,9 +125,9 @@ public class Monster : LivingEntity
         _material.color = Color.white;
         gameObject.layer = 11;
         CurrentHealth = InitialHealth;
-        
-        
-        ObjectPool.ReturnObject(this);
+        _boxCollider.enabled = true;
+
+        MonsterObjectPool.ReturnObject(this);
         
     }
 

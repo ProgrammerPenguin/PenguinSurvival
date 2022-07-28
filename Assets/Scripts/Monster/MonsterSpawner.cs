@@ -16,7 +16,6 @@ public class MonsterSpawner : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log($"debug : {Vector3.Distance(new Vector3(0f, 0f, 0f), new Vector3(-24.54f, -0.774f, -80.4091f))}");
         _navMeshAgent = GetComponentInChildren<NavMeshAgent>();
     }
 
@@ -43,7 +42,7 @@ public class MonsterSpawner : MonoBehaviour
         }
         else
         {
-            var monster = ObjectPool.GetObject(transform);
+            var monster = MonsterObjectPool.GetObject(transform);
         }
             //Instantiate(Monster, spawnPosition, Quaternion.identity);
 
