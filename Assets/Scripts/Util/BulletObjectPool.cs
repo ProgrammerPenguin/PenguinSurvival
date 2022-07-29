@@ -15,12 +15,12 @@ public class BulletObjectPool : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-
+        Initalize(1000);
     }
 
     private Bullet CreateNewObject()
     {
-        var newobj = Instantiate(poolingObjectPrefab, transform).GetComponent<Bullet>();
+        Bullet newobj = Instantiate(poolingObjectPrefab).GetComponent<Bullet>();
         newobj.gameObject.SetActive(false);
         return newobj;
     }
@@ -37,16 +37,15 @@ public class BulletObjectPool : MonoBehaviour
     {
         if (Instance.poolingObjectQueue.Count > 0)
         {
-            var obj = Instance.poolingObjectQueue.Dequeue();
-            obj.transform.SetParent(null,false);
-            obj.gameObject.SetActive(true);
+            Bullet obj = Instance.poolingObjectQueue.Dequeue();
+            obj.transform.SetParent(null);
+            
             return obj;
         }
         else
         {
-            var newobj = Instance.CreateNewObject();
-            newobj.transform.SetParent(null,false);
-            newobj.gameObject.SetActive(true);
+            Bullet newobj = Instance.CreateNewObject();
+            newobj.transform.SetParent(null);
             return newobj;
         }
     }

@@ -9,12 +9,14 @@ public class Bullet : MonoBehaviour
     private Transform _transform;
     private GameManager _gameManager;
     private Rigidbody _rigidbody;
+    private TrailRenderer _trailRenderer;
     public int BulletSpeed;
 
-    private void Start()
+    private void Awake()
     {
         _transform = GetComponent<Transform>();
         _rigidbody = GetComponent<Rigidbody>();
+        _trailRenderer = GetComponent<TrailRenderer>();
         _gameManager = GameManager.Instance;
     }
 
@@ -26,6 +28,8 @@ public class Bullet : MonoBehaviour
     }
     private void OnEnable()
     {
+
+        _trailRenderer.enabled = true;
         Invoke("DestortyBullet", 1f);
     }
 
@@ -40,8 +44,9 @@ public class Bullet : MonoBehaviour
     void DestortyBullet()
     {
 
-       // _transform.Translate(_gameManager.FireTransform.position);
-        
+        // _transform.Translate(_gameManager.FireTransform.position);
+
+        _trailRenderer.enabled = false;
         BulletObjectPool.ReturnObject(this);
     }
 

@@ -4,7 +4,10 @@ public class PlayerAttack : MonoBehaviour
 {
     public GameObject _Meleeweapon;
     public GameObject _Rangeweapon;
+    public GameObject _Magicweapon;
     public Melee meleeWeapon;
+    public Range rangeWeapon;
+    public Magic magicWeapon;
     Animator _anim;
 
     private void Start()
@@ -20,8 +23,13 @@ public class PlayerAttack : MonoBehaviour
         }
         if (_Rangeweapon.activeSelf == true)
         {
-            RangeAttack(_Rangeweapon);
+            RangeAttack();
         }
+        if(_Magicweapon.activeSelf == true)
+        {
+            MagicAttack();
+        }
+
     }
     public void MeleeAttack()
     {
@@ -40,23 +48,37 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    public void RangeAttack(GameObject Range)
+    public void RangeAttack()
     {
-        if (Range == null)
+        if (_Rangeweapon == null)
         {
             return;
         }
-        Range RangeWeapon = Range.GetComponent<Range>();
-        RangeWeapon.AttackDelay += Time.deltaTime;
-        RangeWeapon.IsAttackReady = RangeWeapon.rate < RangeWeapon.AttackDelay;
-        if (RangeWeapon.IsAttackReady)
+        rangeWeapon.AttackDelay += Time.deltaTime;
+        rangeWeapon.IsAttackReady = rangeWeapon.rate < rangeWeapon.AttackDelay;
+        if (rangeWeapon.IsAttackReady)
         {
-            RangeWeapon.Use();
-            //_anim.SetTrigger(PlayerAnimID.GunAttack);
-            RangeWeapon.AttackDelay = 0;
+            rangeWeapon.Use();
+            _anim.SetTrigger(PlayerAnimID.GunAttack);
+            rangeWeapon.AttackDelay = 0;
         }
     }
 
+    public void MagicAttack()
+    {
+        if (_Magicweapon == null)
+        {
+            return;
+        }
+        magicWeapon.AttackDelay += Time.deltaTime;
+        magicWeapon.IsAttackReady = magicWeapon.rate < magicWeapon.AttackDelay;
+        if (magicWeapon.IsAttackReady)
+        {
+            magicWeapon.Use();
+            //_anim.SetTrigger(PlayerAnimID.GunAttack);
+            magicWeapon.AttackDelay = 0;
+        }
+    }
     void Test()
     {
         Debug.Log("테스트 코드입니다");

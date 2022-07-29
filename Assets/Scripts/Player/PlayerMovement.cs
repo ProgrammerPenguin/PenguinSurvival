@@ -24,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     {
         // 물리 갱신 주기마다 움직임, 회전, 애니메이션 처리 실행
         move();
+        FreezeRotation();
         //rotate();
         if (_input.MoveDirection != 0)
         {
@@ -33,9 +34,14 @@ public class PlayerMovement : MonoBehaviour
         {
             _animator.SetFloat(PlayerAnimID.Move, _input.RotateDirection);
         }
-      
+        
+        
     }
 
+    void FreezeRotation()
+    {
+        _rigidbody.angularVelocity = Vector3.zero;
+    }
     // 입력값에 따라 캐릭터를 앞뒤로 움직임
     private void move()
     {

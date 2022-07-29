@@ -20,8 +20,12 @@ public class Range : Weapon
     void Shot()
     {
         
-        var intantBullet = BulletObjectPool.GetObject();
+        Bullet intantBullet = BulletObjectPool.GetObject();
+        intantBullet.transform.position = bulletPosition.position + bulletPosition.forward;
+        intantBullet.transform.forward = bulletPosition.forward;
+        intantBullet.gameObject.SetActive(true);
         
+       
         // Destroy(intantBullet, 4f);
         //BulletObjectPool.ReturnObject(intantBullet);
     }
