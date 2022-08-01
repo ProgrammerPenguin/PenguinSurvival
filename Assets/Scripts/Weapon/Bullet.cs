@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public int damage;
+    public int damage { get; private set; }
     public float time;
     private Transform _transform;
     private GameManager _gameManager;
@@ -18,12 +18,14 @@ public class Bullet : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _trailRenderer = GetComponent<TrailRenderer>();
         _gameManager = GameManager.Instance;
+        damage = _gameManager._range.damage;
     }
 
     private void FixedUpdate()
     {
        // Rigidbody bulletRigid = intantBullet.GetComponent<Rigidbody>();
         _rigidbody.velocity = _transform.forward * BulletSpeed;
+        //_rigidbody.AddForce(_transform.forward * BulletSpeed);
        // bulletRigid.velocity = bulletPosition.forward * BulletSpeed;
     }
     private void OnEnable()

@@ -81,15 +81,23 @@ public class Monster : LivingEntity
             Melee weapon = other.GetComponent<Melee>();
             OnDamage(weapon.damage, transform.position);
             Vector3 KnockBack = transform.position - other.transform.position;
-            StartCoroutine(HitEffect());
+            StartCoroutine(HitEffect(KnockBack));
             //Debug.Log($"{CurrentHealth}"); // 지워야함
         }
         if (other.tag == "Bullet")
         {
             Bullet bulltet = other.GetComponent<Bullet>();
             OnDamage(bulltet.damage, transform.position);
-            StartCoroutine(HitEffect());
+            Vector3 KnockBack = transform.position;
+            StartCoroutine(HitEffect(KnockBack));
         }
+    }
+
+    public void HitByMagicBall(Vector3 Pos)
+    {
+        OnDamage(_gameManager._magic.damage, transform.position);
+        Vector3 KnockBack = transform.position - Pos;
+        StartCoroutine(HitEffect(KnockBack));
     }
 
     public override void OnDamage(float damage, Vector3 hitPoint)
@@ -97,7 +105,7 @@ public class Monster : LivingEntity
         base.OnDamage(damage, hitPoint);
     }
 
-    IEnumerator HitEffect()
+    IEnumerator HitEffect(Vector3 KnockBack)
     {
         _material.color = Color.red;
         yield return new WaitForSeconds(0.1f);
@@ -106,6 +114,9 @@ public class Monster : LivingEntity
         if (CurrentHealth > 0)
         {
             _material.color = Color.white;
+            KnockBack = KnockBack.normalized;
+            KnockBack += Vector3.up;
+            _rigidbody.AddForce(KnockBack * 100, ForceMode.Impulse);
         }
         else
         {

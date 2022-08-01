@@ -75,13 +75,9 @@ public class PlayerAttack : MonoBehaviour
         if (magicWeapon.IsAttackReady)
         {
             magicWeapon.Use();
-            //_anim.SetTrigger(PlayerAnimID.GunAttack);
+            _anim.SetTrigger(PlayerAnimID.MagicAttack);
             magicWeapon.AttackDelay = 0;
         }
-    }
-    void Test()
-    {
-        Debug.Log("테스트 코드입니다");
     }
 
     void MeleeWeaponOn()

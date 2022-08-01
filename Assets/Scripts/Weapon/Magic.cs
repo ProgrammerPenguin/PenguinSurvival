@@ -22,8 +22,9 @@ public class Magic : Weapon
     }
     void MagicShot()
     {
-        Debug.Log("»ý¼º´ï");
-        Vector3 high = new Vector3(0f, 100f, 0f);
+        float radx = Random.Range(transform.position.x - 50f, transform.position.x + 50f);
+        float radz = Random.Range(transform.position.z - 50f, transform.position.z + 50f);
+        Vector3 high = new Vector3(radx, 50f, radz);
         Instantiate(magicball, transform.position + high, transform.rotation);
     }
 

@@ -8,5 +8,5 @@ public static class PlayerAnimID
     public static readonly int MeleeAttack = Animator.StringToHash("MeleeAttack");
     public static readonly int MeleeCombo1 = Animator.StringToHash("MeleeCombo1");
     public static readonly int GunAttack = Animator.StringToHash("GunShot");
-    public static readonly int MagicAttack = Animator.StringToHash("MagicAttack");
+    public static readonly int MagicAttack = Animator.StringToHash("Magic");
 }

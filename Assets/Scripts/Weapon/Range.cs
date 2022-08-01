@@ -10,6 +10,8 @@ public class Range : Weapon
     public float AttackDelay;
     public bool IsAttackReady;
 
+
+
     private float time;
 
     

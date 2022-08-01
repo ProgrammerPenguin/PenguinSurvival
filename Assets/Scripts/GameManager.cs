@@ -15,6 +15,8 @@ public class GameManager : Singleton<GameManager>
     public float MinDistance;
     public float MaxDistance;
 
+    public Range _range;
+    public Magic _magic;
     private void Start()
     {
         //PlayerTransform = GameObject.FindGameObjectWithTag("Player").transform;
