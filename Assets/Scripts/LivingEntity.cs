@@ -11,7 +11,7 @@ public class LivingEntity : MonoBehaviour, IDamageable
     public event Action onDeath; // 사망시 발동할 이벤트
 
     // 생명체가 활성화될때 상태를 리셋
-    public void OnEnable()
+    protected virtual void OnEnable()
     {
         // 사망하지 않은 상태로 시작
         IsDead = false;
@@ -27,10 +27,10 @@ public class LivingEntity : MonoBehaviour, IDamageable
         CurrentHealth -= damage;
 
         // 체력이 0 이하 && 아직 죽지 않았다면 사망 처리 실행
-        //if (CurrentHealth <= 0 && !IsDead)
-        //{
-        //    Die();
-        //}
+        if (CurrentHealth <= 0 && !IsDead)
+        {
+            Die();
+        }
     }
 
     // 체력을 회복하는 기능
@@ -50,10 +50,10 @@ public class LivingEntity : MonoBehaviour, IDamageable
     public virtual void Die()
     {
         // onDeath 이벤트에 등록된 메서드가 있다면 실행
-        if (onDeath != null)
-        {
-            onDeath();
-        }
+        //if (onDeath != null)
+        //{
+        //    onDeath();
+        //}
 
         // 사망 상태를 참으로 변경
         IsDead = true;

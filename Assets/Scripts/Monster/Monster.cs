@@ -7,6 +7,7 @@ public class Monster : LivingEntity
 {
     private Transform Target;
     public bool IsChase;
+    public int Damage;
     
     private Rigidbody _rigidbody;
     private BoxCollider _boxCollider;
@@ -15,7 +16,7 @@ public class Monster : LivingEntity
     private Animator _animator;
     private GameManager _gameManager;
     public bool Isdie;
-
+    private bool IsMelee;
 
 
     private void Start()
@@ -35,7 +36,7 @@ public class Monster : LivingEntity
     void ChaseStart()
     {
         IsChase = true;
-        _animator.SetBool(SlimeAnimID.HasTarget, true);
+        _animator.SetBool(MonsterAnimID.HasTarget, true);
     }
 
     new public void OnEnable()
@@ -80,6 +81,7 @@ public class Monster : LivingEntity
         {
             Melee weapon = other.GetComponent<Melee>();
             OnDamage(weapon.damage, transform.position);
+            IsMelee = true;
             Vector3 KnockBack = transform.position - other.transform.position;
             StartCoroutine(HitEffect(KnockBack));
             //Debug.Log($"{CurrentHealth}"); // 지워야함
@@ -88,6 +90,7 @@ public class Monster : LivingEntity
         {
             Bullet bulltet = other.GetComponent<Bullet>();
             OnDamage(bulltet.damage, transform.position);
+            IsMelee = false;
             Vector3 KnockBack = transform.position;
             StartCoroutine(HitEffect(KnockBack));
         }
@@ -103,6 +106,7 @@ public class Monster : LivingEntity
     public override void OnDamage(float damage, Vector3 hitPoint)
     {
         base.OnDamage(damage, hitPoint);
+        _animator.SetTrigger(MonsterAnimID.DoHit);
     }
 
     IEnumerator HitEffect(Vector3 KnockBack)
@@ -114,15 +118,19 @@ public class Monster : LivingEntity
         if (CurrentHealth > 0)
         {
             _material.color = Color.white;
-            KnockBack = KnockBack.normalized;
-            KnockBack += Vector3.up;
-            _rigidbody.AddForce(KnockBack * 100, ForceMode.Impulse);
+            if (IsMelee)
+            {
+                KnockBack = KnockBack.normalized;
+                KnockBack += Vector3.up;
+                _rigidbody.AddForce(KnockBack * 100, ForceMode.Impulse);
+            }
+            
         }
         else
         {
             IsChase = false;
             Isdie = true;
-            _animator.SetTrigger(SlimeAnimID.DoDie);
+            _animator.SetTrigger(MonsterAnimID.DoDie);
             _material.color = Color.gray;
             gameObject.layer = 12;
             _boxCollider.enabled = false;
@@ -130,16 +138,14 @@ public class Monster : LivingEntity
         }
     }
 
-    private void DestroyMonster()
+    public virtual void DestroyMonster()
     {
-        _animator.SetTrigger(SlimeAnimID.DoDie);
+        _animator.SetTrigger(MonsterAnimID.DoDie);
         _material.color = Color.white;
         gameObject.layer = 11;
         CurrentHealth = InitialHealth;
         _boxCollider.enabled = true;
 
-        MonsterObjectPool.ReturnObject(this);
-        
     }
 
 }
