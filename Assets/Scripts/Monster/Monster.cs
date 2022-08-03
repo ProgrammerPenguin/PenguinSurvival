@@ -8,6 +8,8 @@ public class Monster : LivingEntity
     private Transform Target;
     public bool IsChase;
     public int Damage;
+    public int Experience;
+    public int Gold;
     
     private Rigidbody _rigidbody;
     private BoxCollider _boxCollider;
@@ -134,6 +136,8 @@ public class Monster : LivingEntity
             _material.color = Color.gray;
             gameObject.layer = 12;
             _boxCollider.enabled = false;
+            _gameManager.playerLevel.PlayerGold += Gold;
+            _gameManager.playerLevel.PlayerCurrentExperience += Experience;
             Invoke("DestroyMonster", 4f);
         }
     }
@@ -145,6 +149,7 @@ public class Monster : LivingEntity
         gameObject.layer = 11;
         CurrentHealth = InitialHealth;
         _boxCollider.enabled = true;
+        
 
     }
 

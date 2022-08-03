@@ -10,21 +10,6 @@ public class Melee : Weapon
     public bool IsAttackReady;
     public float WeaponSpeed;
 
-    public void Use()
-    {
-       StartCoroutine(Swing());
-    }
-    IEnumerator Swing()
-    {
-        yield return null;
-        meleeArea.enabled = true;
-        trailEffect.enabled = true;
 
-        yield return new WaitForSeconds(7f);
-        meleeArea.enabled = false;
-        trailEffect.enabled = false;
-    }
-
-    
 
 }

@@ -702,6 +702,8 @@ MonoBehaviour:
   InitialHealth: 100
   IsChase: 0
   Damage: 20
+  Experience: 50
+  Gold: 10
   Isdie: 0
 --- !u!1 &3149337311476093513
 GameObject:
