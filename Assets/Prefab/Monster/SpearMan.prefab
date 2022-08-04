@@ -260,11 +260,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28da204ebc8664745830f387f8d9e56a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitialHealth: 100
+  InitialHealth: 300
   IsChase: 0
   Damage: 20
-  Experience: 50
-  Gold: 10
+  Experience: 75
+  Gold: 30
   Isdie: 0
 --- !u!1 &854181015475625761
 GameObject:

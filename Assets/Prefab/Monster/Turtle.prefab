@@ -218,8 +218,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InitialHealth: 100
   IsChase: 0
-  Damage: 20
-  Experience: 50
+  Damage: 10
+  Experience: 5
   Gold: 10
   Isdie: 0
 --- !u!1 &6813997501580469538
